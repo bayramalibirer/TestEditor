@@ -1,3 +1,5 @@
 <template>
-  <div class="text-center text-blue-500">Tailwind CSS Çalışıyor!</div>
+  <div>
+    <NuxtPage />
+  </div>
 </template>
