@@ -1,7 +1,9 @@
 <template>
   <div class="flex h-screen">
-    <Navbar />
+    <Sidebar />
     <div class="flex-1 flex flex-col">
+      <Navbar />
+      <CanvasEditor />
     </div>
   </div>
 </template>
