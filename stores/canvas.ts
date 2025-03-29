@@ -81,14 +81,18 @@ export const useCanvasStore = defineStore("canvas", {
       const rect = new fabric.Rect({
         left: 100,
         top: 100,
-        fill: this.selectedColor, // Dikdörtgenin rengi seçilen renk
-        width: 100,
-        height: 60,
-        selectable: true, // Seçilebilir
-        hasControls: true, // Kontrol noktalarını etkinleştir
+        fill: this.selectedColor,
+        width: 200,
+        height: 200,
+        hasControls: true,
+        lockScalingX: false,
+        lockScalingY: false,
+        lockRotation: false,
       });
 
       this.canvas.add(rect);
+      this.canvas.setActiveObject(rect);
+      this.canvas.renderAll();
     },
 
     addTriangle() {
@@ -100,11 +104,19 @@ export const useCanvasStore = defineStore("canvas", {
         fill: this.selectedColor, // Üçgenin rengi seçilen renk
         width: 100,
         height: 100,
-        selectable: true, // Seçilebilir
-        hasControls: true, // Kontrol noktalarını etkinleştir
+        selectable: true, // Seçilebilir olmalı
+        hasControls: true, // Boyutlandırma ve döndürme açık olmalı
+        lockScalingX: false,
+        lockScalingY: false,
+        hasRotatingPoint: true,
+        evented: true,
       });
 
       this.canvas.add(triangle);
+      this.canvas.setActiveObject(triangle); // Üçgeni seçili yap
+      this.canvas.requestRenderAll(); // Canvas'ı yeniden çiz
+      console.log("Triangle added to canvas");
+      console.log(this.canvas.getObjects()); // Canvas nesnesini konsola yazdır
     },
     addCircle() {
       if (!this.canvas) return;
@@ -114,19 +126,15 @@ export const useCanvasStore = defineStore("canvas", {
         top: 200,
         fill: this.selectedColor, // Dairenin rengi seçilen renk
         radius: 50,
-        selectable: true, // Seçilebilir
-        hasControls: true, // Kontrol noktalarını etkinleştir
       });
 
       this.canvas.add(circle);
     },
-    
 
     clearCanvas() {
       if (this.canvas) {
         this.canvas.clear();
       }
     },
-
   },
 });
