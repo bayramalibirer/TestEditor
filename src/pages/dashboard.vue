@@ -1,7 +1,11 @@
 <template>
-  <div class="flex h-screen">
-    <div class="flex-1 flex flex-col">
-      <Deneme />
+  <div class="flex h-screen flex-col">
+    
+    <div class="flex flex-1">
+      
+      <div class="flex-1">
+        <CanvasEditor />
+      </div>
     </div>
   </div>
 </template>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-white"
-    style="height: 100vh; width: 100vw"
-  >
+  <div class="flex flex-col bg-white" style="height: 100vh; width: 100vw">
     <!-- Kaydetme Butonu -->
     <button
       @click="showSaveModal = true"
@@ -46,10 +43,7 @@
       </label>
 
       <!-- Metin Ekle -->
-      <button
-        @click="addText"
-        class="bg-blue-500 text-white px-4 py-2 rounded"
-      >
+      <button @click="addText" class="bg-blue-500 text-white px-4 py-2 rounded">
         Add Text
       </button>
 
@@ -83,6 +77,17 @@
         class="bg-red-500 text-white px-4 py-2 rounded"
       >
         Clear Canvas
+      </button>
+
+      <!-- Yeni Butonlar -->
+      <button @click="eraser" class="bg-red-500 text-white px-4 py-2 rounded">
+        Eraser
+      </button>
+      <button @click="undo" class="bg-yellow-500 text-white px-4 py-2 rounded">
+        Undo
+      </button>
+      <button @click="redo" class="bg-purple-500 text-white px-4 py-2 rounded">
+        Redo
       </button>
     </div>
 
@@ -133,6 +138,10 @@ const brushColor = ref("#000000"); // Varsayılan fırça rengi
 const isDrawingMode = ref(false); // Çizim modu durumu
 const showSaveModal = ref(false); // Kaydetme modalını kontrol eder
 
+// İşlem geçmişi
+const undoStack: fabric.Object[] = [];
+const redoStack: fabric.Object[] = [];
+
 // Canvas'ı başlat
 const initializeCanvas = () => {
   const canvasElement = document.getElementById("canvas");
@@ -156,6 +165,17 @@ const initializeCanvas = () => {
 
   // Ekran boyutu değiştiğinde canvas'ı yeniden boyutlandır
   window.addEventListener("resize", resizeCanvas);
+
+  // Canvas'ta yapılan işlemleri takip et
+  // Add a custom property to track undoing state
+  (canvas as any)._isUndoing = false;
+
+  canvas.on("object:added", () => {
+    if (!(canvas as any)._isUndoing) {
+      undoStack.push(canvas.getObjects().slice(-1)[0]);
+      redoStack.length = 0; // Redo yığınını temizle
+    }
+  });
 
   console.log("Canvas initialized");
 };
@@ -245,7 +265,7 @@ const addText = () => {
   const text = new fabric.Textbox("Write Someting", {
     left: 100,
     top: 100,
-    fontSize: 5+brushWidth.value*5, // Metin boyutu fırça genişliği ile aynı
+    fontSize: 5 + brushWidth.value * 5, // Metin boyutu fırça genişliği ile aynı
     fill: brushColor.value, // Metnin rengi seçilen renk
     selectable: true, // Seçilebilir
     hasControls: true, // Kontrol noktalarını etkinleştir
@@ -279,6 +299,36 @@ const clearCanvas = () => {
   if (!canvas) return;
   canvas.clear();
   canvas.renderAll();
+};
+
+// Yeni Fonksiyonlar
+const eraser = () => {
+  if (!canvas) return;
+
+  const activeObject = canvas.getActiveObject();
+  if (activeObject) {
+    canvas.remove(activeObject);
+  }
+};
+
+const undo = () => {
+  if (!canvas || undoStack.length === 0) return;
+
+  const lastObject = undoStack.pop();
+  if (lastObject) {
+    redoStack.push(lastObject);
+    canvas.remove(lastObject);
+  }
+};
+
+const redo = () => {
+  if (!canvas || redoStack.length === 0) return;
+
+  const lastRedoObject = redoStack.pop();
+  if (lastRedoObject) {
+    undoStack.push(lastRedoObject);
+    canvas.add(lastRedoObject);
+  }
 };
 
 // Canvas'ı başlat
