@@ -1,37 +1,36 @@
 <template>
-  <div class="flex">
-    <!-- Menü Butonu (Küçük Ekranlar İçin) -->
-    <button
-      class="lg:hidden fixed top-4 left-4 p-2 bg-gray-200 rounded shadow"
+  <div class="sidebar-container">
+    <!-- Menü Butonu -->
+    <SideBarButton
+      v-if="!isSidebarOpen"
+      image="/icons/menu.png"
       @click="toggleSidebar"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
+      class="menu-button fixed top-4 left-4 z-10"
+    />
 
     <!-- Sidebar -->
     <div
       :class="[
-        'w-64 bg-gray-100 p-4 flex flex-col h-screen transition-transform',
-        isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
-        'lg:translate-x-0',
+        'sidebar-content bg-gray-100 p-4 flex flex-col h-screen transition-all',
+        isSidebarOpen ? 'w-64' : 'w-0',
       ]"
     >
-      <!-- Kapatma Butonu (Küçük Ekranlar İçin) -->
-      <button
-        class="lg:hidden self-end p-2 bg-gray-200 rounded shadow mb-4"
+      <!-- Kapatma Butonu -->
+      <SideBarButton
+        v-if="isSidebarOpen"
+        image="/icons/X.png"
         @click="toggleSidebar"
-      >
-        <i class="fas fa-times"></i>
-      </button>
+        class="close-button self-end mb-4"
+      />
 
       <!-- Üst Butonlar -->
-      <div class="flex flex-col gap-4 w-full items-start">
+      <div v-if="isSidebarOpen" class="flex flex-col gap-4 w-full items-start">
         <!-- Fırça Rengi -->
         <label class="flex items-center gap-2 w-full">
           <input
             type="color"
             v-model="brushColor"
-            @input="updateBrushColor"
+            @input="(event) => updateBrushColor((event.target as HTMLInputElement).value)"
             class="border rounded w-full"
           />
         </label>
@@ -43,32 +42,30 @@
             min="1"
             max="50"
             v-model="brushWidth"
-            @input="updateBrushWidth"
+            @input="(event) => updateBrushWidth(Number((event.target as HTMLInputElement).value))"
             class="border rounded w-full"
           />
         </label>
 
-        <!-- Butonlar (Responsive Grid) -->
-        <div class="grid gap-2 w-full lg:grid-cols-1 grid-cols-2">
+        <!-- Butonlar (2 Sütunlu Grid) -->
+        <div class="grid gap-2 w-full grid-cols-2">
           <SideBarButton image="/icons/text.png" @click="addText" />
           <SideBarButton
             image="/icons/pencil.png"
-            @click="canvasStore.setPencil"
+            @click="toggleDrawingMode"
+            :class="isDrawingMode ? 'bg-gray-300' : ''"
           />
-          <SideBarButton
-            image="/icons/eraser.png"
-            @click="canvasStore.setEraser"
-          />
+          <SideBarButton image="/icons/eraser.png" @click="eraser" />
           <SideBarButton image="/icons/rectangle.png" @click="addRectangle" />
           <SideBarButton image="/icons/circle.png" @click="addCircle" />
           <SideBarButton image="/icons/triangle.png" @click="addTriangle" />
-          <SideBarButton image="/icons/undo.png" @click="canvasStore.undo" />
-          <SideBarButton image="/icons/redo.png" @click="canvasStore.redo" />
+          <SideBarButton image="/icons/undo.png" @click="undo" />
+          <SideBarButton image="/icons/redo.png" @click="redo" />
         </div>
       </div>
 
       <!-- Alt Butonlar (Yan Yana ve Tüm Alanı Dolduracak) -->
-      <div class="flex gap-2 mt-auto w-full">
+      <div v-if="isSidebarOpen" class="flex gap-2 mt-auto w-full">
         <SideBarButton
           image="/icons/delete.png"
           @click="clearCanvas"
@@ -84,75 +81,65 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
-import { useCanvasStore } from "@/stores/canvas";
 import SideBarButton from "./Btn/SideBarButton.vue";
+import { useCanvas } from "@/composables/useCanvas";
 
-const canvasStore = useCanvasStore();
+const {
+  brushWidth,
+  brushColor,
+  isDrawingMode,
+  toggleDrawingMode,
+  updateBrushWidth,
+  updateBrushColor,
+  addRectangle,
+  addCircle,
+  addTriangle,
+  addText,
+  clearCanvas,
+  eraser,
+  undo,
+  redo,
+  saveCanvas,
+} = useCanvas();
 
-// Sidebar durumu
-const isSidebarOpen = ref(false);
+const isSidebarOpen = ref(true);
 
 // Sidebar'ı aç/kapat
 const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value; // Durumu tersine çevir
-};
-
-// Fırça özellikleri
-const brushColor = ref("#000000"); // Varsayılan siyah renk
-const brushWidth = ref(10); // Varsayılan genişlik
-
-// Fırça rengi güncelleme
-const updateBrushColor = () => {
-  canvasStore.setBrushColor(brushColor.value);
-};
-
-// Fırça genişliği güncelleme
-const updateBrushWidth = () => {
-  canvasStore.setBrushWidth(brushWidth.value);
-};
-
-const addRectangle = () => {
-  canvasStore.addRectangle();
-};
-
-const addText = () => {
-  canvasStore.addText();
-};
-
-const clearCanvas = () => {
-  canvasStore.clearCanvas();
-};
-
-const saveCanvas = () => {
-  canvasStore.saveCanvas();
-};
-
-const addCircle = () => {
-  canvasStore.addCircle(); // Canvas store'da bir daire ekleme işlemi
-};
-
-const addTriangle = () => {
-  canvasStore.addTriangle(); // Canvas store'da bir üçgen ekleme işlemi
+  isSidebarOpen.value = !isSidebarOpen.value;
 };
 </script>
 
 <style scoped>
-/* Sidebar tam ekran yüksekliğinde olacak */
-.h-screen {
-  height: 100vh;
+/* Sidebar kapsayıcı */
+.sidebar-container {
+  display: flex;
+  height: 100vh; /* Tüm ekran yüksekliği */
 }
 
-/* Responsive tasarım için */
-@media (max-width: 768px) {
-  .w-64 {
-    width: 100%; /* Küçük ekranlarda tam genişlik */
-  }
+/* Sidebar içeriği */
+.sidebar-content {
+  overflow: hidden; /* Taşan içerikleri gizle */
+  transition: width 0.3s ease; /* Genişlik geçiş efekti */
 }
 
-/* Alt Butonlar için */
-.flex-1 {
-  flex: 1; /* Butonların eşit genişlikte olmasını sağlar */
+/* Menü butonu */
+.menu-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Kapatma butonu */
+.close-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
