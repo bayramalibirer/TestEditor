@@ -1,6 +1,6 @@
 module.exports = {
-  darkMode: "class", // 'media' yerine 'class' kullanıyoruz
-  content: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
+  darkMode: "class", // Dark mode'u class tabanlı yap
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },

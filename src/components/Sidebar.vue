@@ -101,15 +101,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
-import { useThemeStore } from "@/stores/themeStore";
+import { ref, nextTick, inject } from "vue";
 import SideBarButton from "./Btn/SideBarButton.vue";
 import SaveModal from "./SaveModal.vue";
 import ThemeButton from "./Btn/ThemeButton.vue"; // Yeni bileşeni içe aktardık
 import { useCanvas } from "@/composables/useCanvas";
 
-const themeStore = useThemeStore();
-const theme = themeStore.theme;
+const theme = inject("theme") as Ref<string>; // Global tema durumunu al
 
 const {
   brushWidth,
