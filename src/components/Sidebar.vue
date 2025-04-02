@@ -1,5 +1,8 @@
 <template>
-  <div class="sidebar-container">
+  <div
+    class="sidebar-container"
+    :class="theme === 'dark' ? 'bg-black text-white' : 'bg-gray-100 text-black'"
+  >
     <!-- Menü Butonu -->
     <SideBarButton
       v-if="!isSidebarOpen"
@@ -11,7 +14,7 @@
     <!-- Sidebar -->
     <div
       :class="[
-        'sidebar-content bg-gray-100 p-4 flex flex-col h-screen transition-all',
+        'sidebar-content p-4 flex flex-col h-screen transition-all',
         isSidebarOpen ? 'w-64' : 'w-0',
       ]"
     >
@@ -22,6 +25,15 @@
         @click="toggleSidebar"
         class="close-button self-end mb-4"
       />
+
+      <!-- Tema Butonu -->
+      <div
+        v-if="isSidebarOpen"
+        class="flex justify-start mb-4 absolute top-4 left-4"
+      >
+        <ThemeButton />
+        <!-- Tema butonunu buraya ekledik -->
+      </div>
 
       <!-- Üst Butonlar -->
       <div v-if="isSidebarOpen" class="flex flex-col gap-4 w-full items-start">
@@ -78,13 +90,26 @@
         />
       </div>
     </div>
+
+    <!-- Kaydetme Modalı -->
+    <SaveModal
+      :isVisible="showSaveModal"
+      @close="showSaveModal = false"
+      @save="handleSave"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
+import { useThemeStore } from "@/stores/themeStore";
 import SideBarButton from "./Btn/SideBarButton.vue";
+import SaveModal from "./SaveModal.vue";
+import ThemeButton from "./Btn/ThemeButton.vue"; // Yeni bileşeni içe aktardık
 import { useCanvas } from "@/composables/useCanvas";
+
+const themeStore = useThemeStore();
+const theme = themeStore.theme;
 
 const {
   brushWidth,
@@ -101,14 +126,45 @@ const {
   eraser,
   undo,
   redo,
-  saveCanvas,
+  saveCanvas: saveCanvasToFile,
+  resizeCanvas,
 } = useCanvas();
 
 const isSidebarOpen = ref(true);
+const showSaveModal = ref(false);
 
 // Sidebar'ı aç/kapat
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
+  setTimeout(() => {
+    resizeCanvas();
+  }, 300);
+};
+
+// Kaydetme işlemi
+const saveCanvas = async () => {
+  toggleSidebar(); // Sidebar'ı kapat
+
+  // DOM güncellemelerinin tamamlanmasını bekle
+  await nextTick();
+
+  // Canvas boyutlarını yeniden ayarla
+  resizeCanvas();
+
+  // Canvas boyutlandırma işlemi tamamlandıktan sonra kaydetme modalını aç
+  showSaveModal.value = true;
+};
+
+// Kaydetme modalından gelen kaydetme işlemi
+const handleSave = ({
+  format,
+  fileName,
+}: {
+  format: "png" | "jpeg";
+  fileName: string;
+}) => {
+  saveCanvasToFile(format, fileName);
+  showSaveModal.value = false;
 };
 </script>
 
@@ -122,7 +178,7 @@ const toggleSidebar = () => {
 /* Sidebar içeriği */
 .sidebar-content {
   overflow: hidden; /* Taşan içerikleri gizle */
-  transition: width 0.3s ease; /* Genişlik geçiş efekti */
+  transition: width 0.3s ease;
 }
 
 /* Menü butonu */

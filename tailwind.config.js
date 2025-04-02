@@ -1,12 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./src/components/**/*.{vue,js,ts}",
-    "./src/layouts/**/*.vue",
-    "./src/pages/**/*.vue",
-    "./src/plugins/**/*.{js,ts}",
-    "./src/nuxt.config.{js,ts}",
-  ],
+module.exports = {
+  darkMode: "class", // 'media' yerine 'class' kullanıyoruz
+  content: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },

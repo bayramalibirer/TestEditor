@@ -4,7 +4,7 @@
     <Sidebar />
 
     <!-- Canvas Editor -->
-    <CanvasEditor />
+    <CanvasEditor/>
   </div>
 </template>
 

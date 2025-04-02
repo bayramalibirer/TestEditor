@@ -200,7 +200,7 @@ export const useCanvas = () => {
   };
 
   // Canvas'ı kaydet
-  const saveCanvas = (format: "png" | "jpeg") => {
+  const saveCanvas = (format: "png" | "jpeg", fileName: string) => {
     if (!canvas) return;
 
     const dataURL = canvas.toDataURL({
@@ -211,10 +211,8 @@ export const useCanvas = () => {
 
     const link = document.createElement("a");
     link.href = dataURL;
-    link.download = `canvas.${format}`;
+    link.download = `${fileName}.${format}`;
     link.click();
-
-    showSaveModal.value = false;
   };
 
   return {
