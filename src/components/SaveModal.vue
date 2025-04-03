@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { ref } from "vue";
 
 // Modal görünürlüğü için prop
 defineProps({
