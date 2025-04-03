@@ -2,7 +2,6 @@
   <div class="app-container">
     <!-- Sidebar -->
     <Sidebar />
-
     <!-- Canvas Editor -->
     <CanvasEditor/>
   </div>

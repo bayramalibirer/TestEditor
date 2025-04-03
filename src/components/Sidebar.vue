@@ -1,7 +1,7 @@
 <template>
   <div
     class="sidebar-container"
-    :class="theme === 'dark' ? 'bg-black text-white' : 'bg-gray-100 text-black'"
+    :class="theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'"
   >
     <!-- Menü Butonu -->
     <SideBarButton
@@ -167,28 +167,23 @@ const handleSave = ({
 </script>
 
 <style scoped>
-/* Sidebar kapsayıcı */
+/* Genel Ayarlar */
 .sidebar-container {
   display: flex;
   height: 100vh; /* Tüm ekran yüksekliği */
 }
 
-/* Sidebar içeriği */
 .sidebar-content {
   overflow: hidden; /* Taşan içerikleri gizle */
   transition: width 0.3s ease;
-}
-
-/* Menü butonu */
-.menu-button {
-  width: 28px;
-  height: 28px;
+  padding: 1rem; /* İçerik boşluğu */
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  height: 100%;
 }
 
-/* Kapatma butonu */
+/* Menü ve Kapatma Butonları */
+.menu-button,
 .close-button {
   width: 28px;
   height: 28px;
