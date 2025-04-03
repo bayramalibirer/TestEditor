@@ -18,56 +18,51 @@
 </template>
 
 <script lang="ts" setup>
-
-// Props tanımları
 defineProps({
   image: {
     type: String,
-    required: true, // Resim yolu zorunlu
+    required: true,
   },
 });
 
-// Emit tanımları
 const emit = defineEmits(["click"]);
 
-// Tıklama işlemi
 const handleClick = () => {
-  emit("click"); // Tıklama olayını dışarıya ilet
+  emit("click");
 };
 </script>
 
 <style scoped>
 button {
-  width: 64px; /* Varsayılan genişlik */
-  height: 64px; /* Varsayılan yükseklik */
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px; /* Kenar yuvarlama */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
-  transition: background-color 0.3s, width 0.3s, height 0.3s; /* Geçiş efekti */
-  padding: 0; /* İçerik boşluğu kaldırıldı */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, width 0.3s, height 0.3s;
+  padding: 0;
 }
 
-/* Responsive boyutlandırma */
 @media (max-width: 768px) {
   button {
-    width: 48px; /* Küçük ekranlar için genişlik */
-    height: 48px; /* Küçük ekranlar için yükseklik */
+    width: 48px;
+    height: 48px;
   }
 }
 
 @media (max-width: 480px) {
   button {
-    width: 40px; /* Daha küçük ekranlar için genişlik */
-    height: 40px; /* Daha küçük ekranlar için yükseklik */
+    width: 40px;
+    height: 40px;
   }
 }
 
 img {
   display: block;
-  width: 100%; /* Resim genişliği buton genişliği ile aynı */
-  height: 100%; /* Resim yüksekliği buton yüksekliği ile aynı */
-  object-fit: contain; /* Resmi kapsayıcıya sığdır */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 </style>

@@ -18,7 +18,6 @@ export default class NewFabricHistory {
 
     this.undoHistory.push(this.nextState!);
     this.nextState = this.getNextCanvasHistory();
-    console.log("Undo History:", this.undoHistory); // Undo geçmişini kontrol et
   }
 
   undo() {
@@ -26,11 +25,9 @@ export default class NewFabricHistory {
 
     const history = this.undoHistory.pop();
     if (history) {
-      // Önce canvas durumunu geri yükle
       this.canvas.loadFromJSON(history, () => {
         this.render();
 
-        // Geri yükleme tamamlandıktan sonra mevcut durumu kaydet
         const nextState = this.getNextCanvasHistory();
         if (nextState) {
           this.redoHistory.push(nextState);
@@ -38,15 +35,12 @@ export default class NewFabricHistory {
 
         this.nextState = history;
 
-        // this.undoHistory'nin son elemanını sil
         if (this.undoHistory.length > 0) {
           this.undoHistory.pop();
           this.undoHistory.pop();
-
         }
 
         this.processing = false;
-        console.log(this.undoHistory.length, this.redoHistory.length); // Undo ve redo geçmişini kontrol et
       });
     } else {
       this.processing = false;
@@ -79,7 +73,6 @@ export default class NewFabricHistory {
   private getNextCanvasHistory(): string {
     this.canvas.includeDefaultValues = false;
     const json = this.canvas.toJSON();
-    console.log("Canvas JSON:", json); // JSON çıktısını kontrol et
     return JSON.stringify(json);
   }
 }

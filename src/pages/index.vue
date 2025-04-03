@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ThemeButton from "@/components/Btn/ThemeButton.vue"; // ThemeButton bile≈üenini i√ße aktar
+import ThemeButton from "@/components/Btn/ThemeButton.vue"; 
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import ThemeButton from "@/components/Btn/ThemeButton.vue"; // ThemeButton bile≈
     <h1
       class="text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6 transition duration-300"
     >
-      Welcome to Test Desgn App
+      Welcome to Test Design App
     </h1>
     <nuxt-link
       to="/dashboard"
@@ -17,8 +17,6 @@ import ThemeButton from "@/components/Btn/ThemeButton.vue"; // ThemeButton bile≈
     >
       Go to Dashboard
     </nuxt-link>
-
-    <!-- ThemeButton bile≈üenini buraya ekledik -->
     <div class="mt-6">
       <ThemeButton />
     </div>

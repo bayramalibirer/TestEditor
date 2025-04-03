@@ -10,7 +10,6 @@ const undoStack: fabric.Object[] = [];
 const redoStack: fabric.Object[] = [];
 
 export const useCanvas = () => {
-  // Canvas'ı başlat
   const initializeCanvas = (canvasElement: HTMLCanvasElement) => {
     if (!canvasElement) {
       console.error("Canvas element is not provided!");
@@ -21,32 +20,26 @@ export const useCanvas = () => {
       backgroundColor: "white",
     });
 
-    // Varsayılan fırça ayarları
     canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
     canvas.freeDrawingBrush.color = brushColor;
     canvas.freeDrawingBrush.width = brushWidth;
 
-    // İlk boyutlandırmayı yap
     resizeCanvas();
 
-    // Pencere boyutu değiştiğinde yeniden boyutlandır
     window.addEventListener("resize", resizeCanvas);
 
-    // Undo işlemi için özel bir özellik ekle
     (canvas as any)._isUndoing = false;
 
-    // Canvas'ta yapılan işlemleri takip et
     canvas.on("object:added", () => {
       if (!(canvas as any)._isUndoing) {
         if (canvas) {
           undoStack.push(canvas.getObjects().slice(-1)[0]);
         }
-        redoStack.length = 0; // Redo yığınını temizle
+        redoStack.length = 0;
       }
     });
   };
 
-  // Canvas boyutlarını yeniden ayarla
   const resizeCanvas = () => {
     if (!canvas) {
       console.error("Canvas instance is not initialized!");
@@ -67,12 +60,10 @@ export const useCanvas = () => {
     canvas.setWidth(width);
     canvas.setHeight(height);
 
-    // Nesne koordinatlarını güncelle
     canvas.getObjects().forEach((obj) => obj.setCoords());
     canvas.renderAll();
   };
 
-  // Çizim modunu aç/kapat
   const toggleDrawingMode = () => {
     if (!canvas) return;
 
@@ -80,21 +71,18 @@ export const useCanvas = () => {
     canvas.isDrawingMode = isDrawingMode;
   };
 
-  // Fırça genişliğini güncelle
   const updateBrushWidth = (width: number) => {
     if (!canvas?.freeDrawingBrush) return;
     brushWidth = width;
     canvas.freeDrawingBrush.width = width;
   };
 
-  // Fırça rengini güncelle
   const updateBrushColor = (color: string) => {
     if (!canvas?.freeDrawingBrush) return;
     brushColor = color;
     canvas.freeDrawingBrush.color = color;
   };
 
-  // Dikdörtgen ekle
   const addRectangle = () => {
     if (!canvas) {
       console.error("Canvas instance is not initialized!");
@@ -113,7 +101,6 @@ export const useCanvas = () => {
     canvas.add(rect);
   };
 
-  // Daire ekle
   const addCircle = () => {
     if (!canvas) return;
 
@@ -129,7 +116,6 @@ export const useCanvas = () => {
     canvas.add(circle);
   };
 
-  // Üçgen ekle
   const addTriangle = () => {
     if (!canvas) return;
 
@@ -146,7 +132,6 @@ export const useCanvas = () => {
     canvas.add(triangle);
   };
 
-  // Yazı ekle
   const addText = () => {
     if (!canvas) return;
 
@@ -162,14 +147,12 @@ export const useCanvas = () => {
     canvas.add(text);
   };
 
-  // Canvas'ı temizle
   const clearCanvas = () => {
     if (!canvas) return;
     canvas.clear();
     canvas.renderAll();
   };
 
-  // Silgi aracı
   const eraser = () => {
     if (!canvas) return;
     const activeObject = canvas.getActiveObject();
@@ -178,7 +161,6 @@ export const useCanvas = () => {
     }
   };
 
-  // Geri al
   const undo = () => {
     if (!canvas || undoStack.length === 0) return;
     const lastObject = undoStack.pop();
@@ -188,7 +170,6 @@ export const useCanvas = () => {
     }
   };
 
-  // İleri al
   const redo = () => {
     if (!canvas || redoStack.length === 0) return;
     const lastRedoObject = redoStack.pop();
@@ -198,8 +179,7 @@ export const useCanvas = () => {
     }
   };
 
-  // Canvas'ı kaydet
-  const saveCanvas = (format: "png" | "jpeg",filename:string) => {
+  const saveCanvas = (format: "png" | "jpeg", filename: string) => {
     if (!canvas) return;
 
     const dataURL = canvas.toDataURL({

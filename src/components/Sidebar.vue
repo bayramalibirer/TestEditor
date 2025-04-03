@@ -1,7 +1,9 @@
 <template>
   <div
     class="sidebar-container"
-    :class="theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'"
+    :class="
+      theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'
+    "
   >
     <!-- Menü Butonu -->
     <SideBarButton
@@ -104,10 +106,10 @@
 import { ref, nextTick, inject } from "vue";
 import SideBarButton from "./Btn/SideBarButton.vue";
 import SaveModal from "./SaveModal.vue";
-import ThemeButton from "./Btn/ThemeButton.vue"; // Yeni bileşeni içe aktardık
+import ThemeButton from "./Btn/ThemeButton.vue";
 import { useCanvas } from "@/composables/useCanvas";
 
-const theme = inject("theme") as Ref<string>; // Global tema durumunu al
+const theme = inject("theme") as Ref<string>;
 
 const {
   brushWidth,
@@ -131,7 +133,6 @@ const {
 const isSidebarOpen = ref(true);
 const showSaveModal = ref(false);
 
-// Sidebar'ı aç/kapat
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
   setTimeout(() => {
@@ -139,21 +140,13 @@ const toggleSidebar = () => {
   }, 300);
 };
 
-// Kaydetme işlemi
 const saveCanvas = async () => {
-  toggleSidebar(); // Sidebar'ı kapat
-
-  // DOM güncellemelerinin tamamlanmasını bekle
+  toggleSidebar();
   await nextTick();
-
-  // Canvas boyutlarını yeniden ayarla
   resizeCanvas();
-
-  // Canvas boyutlandırma işlemi tamamlandıktan sonra kaydetme modalını aç
   showSaveModal.value = true;
 };
 
-// Kaydetme modalından gelen kaydetme işlemi
 const handleSave = ({
   format,
   fileName,
@@ -167,22 +160,20 @@ const handleSave = ({
 </script>
 
 <style scoped>
-/* Genel Ayarlar */
 .sidebar-container {
   display: flex;
-  height: 100vh; /* Tüm ekran yüksekliği */
+  height: 100vh;
 }
 
 .sidebar-content {
-  overflow: hidden; /* Taşan içerikleri gizle */
+  overflow: hidden;
   transition: width 0.3s ease;
-  padding: 1rem; /* İçerik boşluğu */
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* Menü ve Kapatma Butonları */
 .menu-button,
 .close-button {
   width: 28px;

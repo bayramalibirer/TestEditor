@@ -8,7 +8,6 @@ onMounted(() => {
   const canvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
   if (canvasElement) {
-    // Canvas'ı başlat
     initializeCanvas(canvasElement);
     resizeCanvas();
   }
@@ -24,15 +23,15 @@ onMounted(() => {
 <style scoped>
 .canvas-container {
   position: relative;
-  width: 100vw; /* Tüm ekran genişliği */
-  height: 100vh; /* Tüm ekran yüksekliği */
-  overflow: hidden; /* Taşan içerikleri gizle */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 canvas {
   display: block;
-  width: 100%; /* Görsel olarak kapsayıcıyı doldur */
-  height: 100%; /* Görsel olarak kapsayıcıyı doldur */
-  touch-action: none; /* Dokunmatik cihazlarda doğru çalışması için */
+  width: 100%;
+  height: 100%;
+  touch-action: none;
 }
 </style>

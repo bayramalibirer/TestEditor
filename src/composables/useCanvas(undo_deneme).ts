@@ -75,7 +75,6 @@ export const useCanvas1 = () => {
     history?.value.redo();
   };
 
-
   return {
     canvas,
     brushWidth,
@@ -86,6 +85,5 @@ export const useCanvas1 = () => {
     resizeCanvas,
     undo,
     redo,
-    
   };
 };

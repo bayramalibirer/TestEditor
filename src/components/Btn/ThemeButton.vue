@@ -15,22 +15,20 @@
 <script setup lang="ts">
 import { inject } from "vue";
 
-const theme = inject("theme") as Ref<string>; // Global tema durumunu al
-const toggleTheme = inject("toggleTheme") as () => void; // Tema değiştirme fonksiyonunu al
+const theme = inject("theme") as Ref<string>;
+const toggleTheme = inject("toggleTheme") as () => void;
 </script>
 
 <style scoped>
-/* Switch buton için geçiş animasyonu */
 div {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Yuvarlak kısmın hareketi için translate-x sınıfları */
 .translate-x-1 {
-  transform: translateX(4px); /* Başlangıç pozisyonu */
+  transform: translateX(4px);
 }
 
 .translate-x-9 {
-  transform: translateX(36px); /* Son pozisyon */
+  transform: translateX(36px);
 }
 </style>

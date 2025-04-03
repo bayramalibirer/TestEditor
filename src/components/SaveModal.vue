@@ -51,23 +51,18 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-// Modal görünürlüğü için prop
 defineProps({
   isVisible: Boolean,
 });
 
-// Modal olaylarını dışarıya iletmek için emit
 const emit = defineEmits(["close", "save"]);
 
-// Dosya ismi için reaktif bir değişken
 const fileName = ref("");
 
-// Modalı kapatma
 const closeModal = () => {
   emit("close");
 };
 
-// Kaydetme formatını seçme
 const saveAs = (format: "png" | "jpeg") => {
   if (!fileName.value.trim()) {
     alert("Please enter a file name.");
@@ -78,7 +73,6 @@ const saveAs = (format: "png" | "jpeg") => {
 </script>
 
 <style scoped>
-/* Modal içeriği */
 .bg-white {
   max-width: 400px;
   width: 100%;

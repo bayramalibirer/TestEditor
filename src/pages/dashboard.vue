@@ -1,9 +1,7 @@
 <template>
   <div class="app-container">
-    <!-- Sidebar -->
     <Sidebar />
-    <!-- Canvas Editor -->
-    <CanvasEditor/>
+    <CanvasEditor />
   </div>
 </template>
 
@@ -13,10 +11,9 @@ import CanvasEditor from "@/components/CanvasEditor.vue";
 </script>
 
 <style scoped>
-/* Ana düzen için flex yapısı */
 .app-container {
   display: flex;
-  height: 100vh; /* Tüm ekran yüksekliği */
-  width: 100vw; /* Tüm ekran genişliği */
+  height: 100vh;
+  width: 100vw;
 }
 </style>

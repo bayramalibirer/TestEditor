@@ -1,10 +1,19 @@
-# Nuxt Minimal Starter
+# Test Design App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Test Design App, kullanıcıların bir tuval üzerinde çizim yapmasına, şekiller eklemesine, geri alma/ileri alma işlemleri yapmasına ve tasarımlarını kaydetmesine olanak tanıyan bir Nuxt 3 tabanlı bir uygulamadır. Bu uygulama, Vue 3 ve Fabric.js kullanılarak geliştirilmiştir.
 
-## Setup
+## Özellikler
 
-Make sure to install dependencies:
+- **Çizim Araçları**: Fırça ile çizim yapma, renk ve genişlik ayarlama.
+- **Şekil Ekleme**: Dikdörtgen, daire ve üçgen ekleme.
+- **Metin Ekleme**: Tuvale metin kutuları ekleme.
+- **Geri Alma/İleri Alma**: Yapılan işlemleri geri alma ve yeniden uygulama (Henüz basit bir halde tam anlamıyla geri ve ileri alma işlemlerini yapamıyor).
+- **Kaydetme**: Tasarımları PNG veya JPEG formatında kaydetme.
+- **Tema Desteği**: Açık ve koyu tema arasında geçiş yapma.
+
+## Kurulum
+
+Projeyi çalıştırmadan önce bağımlılıkları yükleyin:
 
 ```bash
 # npm
@@ -20,9 +29,9 @@ yarn install
 bun install
 ```
 
-## Development Server
+## Geliştirme Sunucusu
 
-Start the development server on `http://localhost:3000`:
+Geliştirme sunucusunu başlatmak için aşağıdaki komutlardan birini kullanın. Sunucu `http://localhost:3000` adresinde çalışacaktır:
 
 ```bash
 # npm
@@ -38,9 +47,11 @@ yarn dev
 bun run dev
 ```
 
-## Production
+## Üretim
 
-Build the application for production:
+Uygulamayı üretim için derlemek ve önizlemek için aşağıdaki adımları izleyin:
+
+### Derleme
 
 ```bash
 # npm
@@ -56,7 +67,7 @@ yarn build
 bun run build
 ```
 
-Locally preview production build:
+### Üretim Önizlemesi
 
 ```bash
 # npm
@@ -72,4 +83,11 @@ yarn preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Dağıtım
+
+Uygulamayı dağıtmak için [Nuxt Dağıtım Dokümantasyonu](https://nuxt.com/docs/getting-started/deployment) adresine göz atabilirsiniz.
+
+
+## Lisans
+
+Bu proje MIT lisansı ile lisanslanmıştır.
