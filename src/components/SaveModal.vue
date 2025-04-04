@@ -3,7 +3,13 @@
     v-if="isVisible"
     class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
   >
-    <div class="bg-white p-6 rounded shadow-lg relative w-96">
+    <div
+      class="p-6 rounded shadow-lg relative w-96"
+      :class="{
+        'bg-gray-800 text-white': theme === 'dark',
+        'bg-gray-100 text-black': theme === 'light',
+      }"
+    >
       <!-- Kapatma Butonu -->
       <button
         @click="closeModal"
@@ -17,7 +23,11 @@
 
       <!-- Dosya İsmi Girişi -->
       <div class="mb-4">
-        <label for="filename" class="block text-sm font-medium text-gray-700">
+        <label
+          for="filename"
+          class="block text-sm font-medium"
+          :class="theme === 'dark' ? 'text-white' : 'text-gray-700'"
+        >
           File Name
         </label>
         <input
@@ -25,7 +35,7 @@
           v-model="fileName"
           type="text"
           placeholder="Enter file name"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
         />
       </div>
 
@@ -49,11 +59,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 
 defineProps({
   isVisible: Boolean,
 });
+const theme = inject("theme") as Ref<string>;
 
 const emit = defineEmits(["close", "save"]);
 
@@ -71,10 +82,3 @@ const saveAs = (format: "png" | "jpeg") => {
   emit("save", { format, fileName: fileName.value });
 };
 </script>
-
-<style scoped>
-.bg-white {
-  max-width: 400px;
-  width: 100%;
-}
-</style>

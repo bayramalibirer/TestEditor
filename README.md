@@ -7,7 +7,7 @@ Test Design App, kullanıcıların bir tuval üzerinde çizim yapmasına, şekil
 - **Çizim Araçları**: Fırça ile çizim yapma, renk ve genişlik ayarlama.
 - **Şekil Ekleme**: Dikdörtgen, daire ve üçgen ekleme.
 - **Metin Ekleme**: Tuvale metin kutuları ekleme.
-- **Geri Alma/İleri Alma**: Yapılan işlemleri geri alma ve yeniden uygulama (Henüz basit bir halde tam anlamıyla geri ve ileri alma işlemlerini yapamıyor).
+- **Geri Alma/İleri Alma**: Yapılan işlemleri geri alma ve yeniden uygulama (Henüz basit bir halde tam anlamıyla geri ve ileri alma işlemlerini yapamıyor useHistory.ts ve useCanvas(undo_deneme).ts de yer almaktadır).
 - **Kaydetme**: Tasarımları PNG veya JPEG formatında kaydetme.
 - **Tema Desteği**: Açık ve koyu tema arasında geçiş yapma.
 
@@ -83,11 +83,4 @@ yarn preview
 bun run preview
 ```
 
-## Dağıtım
 
-Uygulamayı dağıtmak için [Nuxt Dağıtım Dokümantasyonu](https://nuxt.com/docs/getting-started/deployment) adresine göz atabilirsiniz.
-
-
-## Lisans
-
-Bu proje MIT lisansı ile lisanslanmıştır.
